@@ -1,4 +1,5 @@
 import { Map } from "./widgets/map/Map";
+import { MantineProvider } from "@mantine/core";
 
 export default function App() {
   return (
@@ -8,7 +9,9 @@ export default function App() {
         height: "100vh",
       }}
     >
-      <Map />
+      <MantineProvider>
+        <Map />
+      </MantineProvider>
     </div>
   );
 }

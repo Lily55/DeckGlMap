@@ -47,5 +47,14 @@ module.exports = {
         target: "http://localhost:3001",
       },
     ],
+    static: {
+      directory: path.join(__dirname, "public"),
+      watch: false,
+    },
+    watchFiles: {
+      options: {
+        ignored: /public\/.*\.json$/,
+      },
+    },
   },
 };

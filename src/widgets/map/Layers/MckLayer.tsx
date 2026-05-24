@@ -1,5 +1,5 @@
 import { GeoJsonLayer } from "@deck.gl/layers";
-import { MckStationFeatureCollection } from "../../../entities/geoObject/types";
+import { MckStationFeatureCollection } from "../../../shared/api/types";
 
 type Props = {
   data?: MckStationFeatureCollection;

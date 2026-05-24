@@ -1,5 +1,5 @@
 import { GeoJsonLayer } from "@deck.gl/layers";
-import { MetroStationFeatureCollection } from "../../../entities/geoObject/types";
+import { MetroStationFeatureCollection } from "../../../shared/api/types";
 
 type Props = {
   data?: MetroStationFeatureCollection;

@@ -1,5 +1,5 @@
 import { GeoJsonLayer } from "@deck.gl/layers";
-import { RoadSegmentFeatureCollection } from "../../../entities/geoObject/types";
+import { RoadSegmentFeatureCollection } from "../../../shared/api/types";
 
 type Props = {
   data?: RoadSegmentFeatureCollection;

@@ -1,12 +1,12 @@
 import { GeoJsonLayer } from "@deck.gl/layers";
-import { McdStationFeatureCollection } from "../../../shared/api/types";
+import { TramStopFeatureCollection } from "../../../shared/api/types";
 
 type Props = {
-  data?: McdStationFeatureCollection;
+  data?: TramStopFeatureCollection;
   onClick: (info: { object?: any; x: number; y: number }) => void;
 };
 
-export const createMcdLayer = ({ data, onClick }: Props) => {
+export const createBusTramsLayer = ({ data, onClick }: Props) => {
   if (!data) return null;
 
   return new GeoJsonLayer({
@@ -14,7 +14,7 @@ export const createMcdLayer = ({ data, onClick }: Props) => {
     data,
     filled: true,
     pointRadiusMinPixels: 6,
-    getFillColor: [0, 255, 0],
+    getFillColor: [255, 0, 0],
     pickable: true,
     autoHighlight: true,
     onClick,

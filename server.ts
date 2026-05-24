@@ -11,25 +11,19 @@ app.use(express.json());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Теперь эта строчка будет работать без ошибок!
-const filePath = path.join(__dirname, "points.json");
-
-// Инициализация пустого файла, если его нет
-if (!fs.existsSync(filePath)) {
-  fs.writeFileSync(filePath, JSON.stringify([]));
-}
+const mckFilePath = path.join(__dirname, "./public/mckStation.json");
 
 // 2. Добавить новую точку
-app.post("/api/points", (req, res) => {
+app.post("/api/addMckPoint", (req, res) => {
   const newPoint = req.body;
 
-  fs.readFile(filePath, "utf8", (err, data) => {
+  fs.readFile(mckFilePath, "utf8", (err, data) => {
     if (err) return res.status(500).send("Ошибка чтения");
 
     const points = JSON.parse(data);
-    points.push(newPoint); // Добавляем новый объект
+    points.features.push(newPoint); // Добавляем новый объект
 
-    fs.writeFile(filePath, JSON.stringify(points, null, 2), (writeErr) => {
+    fs.writeFile(mckFilePath, JSON.stringify(points, null, 2), (writeErr) => {
       if (writeErr) return res.status(500).send("Ошибка записи");
       res
         .status(201)
@@ -38,4 +32,4 @@ app.post("/api/points", (req, res) => {
   });
 });
 
-app.listen(3001, () => console.log("Сервер запущен на порту 3000"));
+app.listen(3001, () => console.log("Сервер запущен на порту 3001"));

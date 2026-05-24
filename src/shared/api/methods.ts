@@ -1,10 +1,17 @@
 import {
+  busTramStopsTransformer,
+  mcdTransformer,
+  mckTransformer,
+  metroTransformer,
+  streetsTransformer,
+} from "./transformers";
+import {
   McdStationFeatureCollection,
   MckStationFeatureCollection,
   MetroStationFeatureCollection,
   RoadSegmentFeatureCollection,
   TramStopFeatureCollection,
-} from "../../entities/geoObject/types";
+} from "./types";
 
 export const fetchMckStations =
   async (): Promise<MckStationFeatureCollection> => {
@@ -12,7 +19,7 @@ export const fetchMckStations =
     if (!response.ok) {
       throw new Error("Ошибка при загрузке данных");
     }
-    return response.json();
+    return mckTransformer(await response.json());
   };
 
 export const fetchStreets = async (): Promise<RoadSegmentFeatureCollection> => {
@@ -20,7 +27,7 @@ export const fetchStreets = async (): Promise<RoadSegmentFeatureCollection> => {
   if (!response.ok) {
     throw new Error("Ошибка при загрузке данных");
   }
-  return response.json();
+  return streetsTransformer(await response.json());
 };
 
 export const fetchMcdStations =
@@ -29,7 +36,7 @@ export const fetchMcdStations =
     if (!response.ok) {
       throw new Error("Ошибка при загрузке данных");
     }
-    return response.json();
+    return mcdTransformer(await response.json());
   };
 
 export const fetchMetroStations =
@@ -38,7 +45,7 @@ export const fetchMetroStations =
     if (!response.ok) {
       throw new Error("Ошибка при загрузке данных");
     }
-    return response.json();
+    return metroTransformer(await response.json());
   };
 
 export const fetchBusTramStops =
@@ -47,11 +54,24 @@ export const fetchBusTramStops =
     if (!response.ok) {
       throw new Error("Ошибка при загрузке данных");
     }
-    return response.json();
+    return busTramStopsTransformer(await response.json());
   };
 
-export const createPoint = async (newPointData) => {
-  const response = await fetch("/api/points", {
+// Сохранение можно сделать и через localStorage, но лучше сохранять точки в БД
+export const createMckPoint = async (newPointData: {
+  type: string;
+  properties: {
+    name_station: string;
+    name_line: string;
+    status: string | null;
+    type: string;
+  };
+  geometry: {
+    type: string;
+    coordinates: number[];
+  };
+}) => {
+  const response = await fetch("/api/addMckPoint", {
     method: "POST",
     headers: {
       "Content-Type": "application/json", // Обязательно сообщаем серверу, что шлем JSON

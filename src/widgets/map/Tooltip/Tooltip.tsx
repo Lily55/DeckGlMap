@@ -1,11 +1,13 @@
 import { useEffect, useRef } from "react";
+import { Properties } from "../../../shared/api/types";
+import { TYPE } from "./lib";
 
 type Props = {
-  onClick: (e) => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   clickedInfo: {
     x: number;
     y: number;
-    properties: Record<string, string | number | null>;
+    properties: Properties;
   };
 };
 
@@ -13,36 +15,41 @@ export const Tooltip = ({ onClick, clickedInfo }: Props) => {
   const tooltipRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Как только тултип примонтировался, переводим на него фокус
     if (tooltipRef.current) {
       tooltipRef.current.focus();
     }
   }, [clickedInfo]);
 
   return (
-    <div ref={tooltipRef}>
-      <div
-        style={{
-          position: "absolute",
-          zIndex: 10, // Чтобы был строго поверх холста deck.gl
-          left: clickedInfo.x + 15, // Немного смещаем вправо от курсора
-          top: clickedInfo.y + 15, // Немного смещаем вниз от курсора
-          backgroundColor: "white",
-          color: "black",
-          padding: "12px",
-          borderRadius: "8px",
-          boxShadow: "0 4px 15px rgba(0,0,0,0.3)",
-          fontFamily: "sans-serif",
-          fontSize: "14px",
-          pointerEvents: "none", // Чтобы тултип не мешал дальнейшим кликам по карте
-          maxWidth: "300px",
-          maxHeight: "300px",
-          overflow: "auto",
-        }}
-      >
-        {Object.values(clickedInfo.properties).map((item) => (
-          <p>{item}</p>
-        ))}
+    <div
+      style={{
+        position: "absolute",
+        zIndex: 10,
+        maxHeight: "300px",
+        overflow: "auto",
+        left: clickedInfo.x + 15,
+        top: clickedInfo.y + 15,
+        backgroundColor: "white",
+        color: "black",
+        padding: "12px",
+        borderRadius: "8px",
+        boxShadow: "0 4px 15px rgba(0,0,0,0.3)",
+        fontFamily: "sans-serif",
+        fontSize: "14px",
+        maxWidth: "300px",
+      }}
+      ref={tooltipRef}
+    >
+      <div>
+        <p>Тип: {TYPE[clickedInfo.properties.type]}</p>
+        <p>Название: {clickedInfo.properties.name}</p>
+        <p>Описание: {clickedInfo.properties.description}</p>
+        {clickedInfo.properties.x ? (
+          <p>Широта: {clickedInfo.properties.x}</p>
+        ) : null}
+        {clickedInfo.properties.y ? (
+          <p>Долгота: {clickedInfo.properties.y}</p>
+        ) : null}
       </div>
       <button
         style={{

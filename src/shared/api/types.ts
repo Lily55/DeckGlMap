@@ -1,4 +1,12 @@
-export interface TramStopProperties {
+export interface Properties {
+  type: "street" | "metro" | "mcd" | "mck" | "busTramStop";
+  name: string;
+  description: string;
+  x?: number;
+  y?: number;
+}
+
+export interface TramStopPropertiesDTO {
   name_mpv: string;
   rayon: string;
   ao: string;
@@ -39,18 +47,32 @@ export interface TramStopProperties {
   AvlbOnFoot: boolean;
 }
 
-export interface TramStopFeature {
+export interface TramStopFeatureDTO {
   type: "Feature";
-  properties: TramStopProperties;
+  properties: TramStopPropertiesDTO;
   geometry: {
     type: "Point";
     coordinates: [number, number]; // [Долгота, Широта] в метрах/градусах
   };
 }
 
+export interface TramStopFeature extends Omit<
+  TramStopFeatureDTO,
+  "properties"
+> {
+  properties: Properties;
+}
+
 // Пример типизации коллекции (FeatureCollection)
-export interface TramStopFeatureCollection {
+export interface TramStopFeatureCollectionDTO {
   type: "FeatureCollection";
+  features: TramStopFeatureDTO[];
+}
+
+export interface TramStopFeatureCollection extends Omit<
+  TramStopFeatureCollectionDTO,
+  "features"
+> {
   features: TramStopFeature[];
 }
 
@@ -105,18 +127,31 @@ export interface McdStationProperties {
   AvlbOnFoot: boolean;
 }
 
-export interface McdStationFeature {
+export interface McdStationFeatureDTO {
   type: "Feature";
   properties: McdStationProperties;
   geometry: {
     type: "Point";
-    coordinates: [number, number]; // [X, Y] в метрах проекции Web Mercator
+    coordinates: [number, number];
   };
 }
 
-// Дополнительный тип для массива таких станций (FeatureCollection)
-export interface McdStationFeatureCollection {
+export interface McdStationFeature extends Omit<
+  McdStationFeatureDTO,
+  "properties"
+> {
+  properties: Properties;
+}
+
+export interface McdStationFeatureCollectionDTO {
   type: "FeatureCollection";
+  features: McdStationFeatureDTO[];
+}
+
+export interface McdStationFeatureCollection extends Omit<
+  McdStationFeatureCollectionDTO,
+  "features"
+> {
   features: McdStationFeature[];
 }
 
@@ -186,7 +221,7 @@ export interface MckStationProperties {
   AvlbOnFoot: boolean;
 }
 
-export interface MckStationFeature {
+export interface MckStationFeatureDTO {
   type: "Feature";
   properties: MckStationProperties;
   geometry: {
@@ -195,11 +230,26 @@ export interface MckStationFeature {
   };
 }
 
-export interface MckStationFeatureCollection {
+export interface MckStationFeature extends Omit<
+  MckStationFeatureDTO,
+  "properties"
+> {
+  properties: Properties;
+}
+
+export interface MckStationFeatureCollectionDTO {
   type: "FeatureCollection";
+  features: MckStationFeatureDTO[];
+}
+
+export interface MckStationFeatureCollection extends Omit<
+  MckStationFeatureCollectionDTO,
+  "features"
+> {
   features: MckStationFeature[];
 }
 
+// Метро
 export interface MetroStationProperties {
   id_uarms: number;
   name_station: string;
@@ -267,7 +317,7 @@ export interface MetroStationProperties {
   AvlbOnFoot: boolean;
 }
 
-export interface MetroStationFeature {
+export interface MetroStationFeatureDTO {
   type: "Feature";
   properties: MetroStationProperties;
   geometry: {
@@ -276,12 +326,27 @@ export interface MetroStationFeature {
   };
 }
 
-export interface MetroStationFeatureCollection {
+export interface MetroStationFeature extends Omit<
+  MetroStationFeatureDTO,
+  "properties"
+> {
+  properties: Properties;
+}
+
+export interface MetroStationFeatureCollectionDTO {
   type: "FeatureCollection";
+  features: MetroStationFeatureDTO[];
+}
+
+export interface MetroStationFeatureCollection extends Omit<
+  MetroStationFeatureCollectionDTO,
+  "features"
+> {
   features: MetroStationFeature[];
 }
 
-export interface RoadSegmentProperties {
+// Дороги
+export interface RoadSegmentPropertiesDTO {
   EdgeId: number;
   ST_NAME: string;
   ST_TYP_BEF: string;
@@ -308,20 +373,32 @@ export interface RoadSegmentProperties {
   Car: number;
 }
 
-// 1. ДОБАВЬТЕ ЭТОТ ИНТЕРФЕЙС (описывает один сегмент улицы)
-export interface RoadSegmentFeature {
+export interface RoadSegmentFeatureDTO {
   type: "Feature";
-  properties: RoadSegmentProperties;
+  properties: RoadSegmentPropertiesDTO;
   geometry: {
     type: "MultiLineString";
     coordinates: [number, number][][];
   };
 }
 
-// 2. ИСПРАВЬТЕ ЭТОТ ИНТЕРФЕЙС (features должен ссылаться на RoadSegmentFeature[])
-export interface RoadSegmentFeatureCollection {
-  type: "FeatureCollection"; // Можно жестко зафиксировать строку для строгости
+export interface RoadSegmentFeature extends Omit<
+  RoadSegmentFeatureDTO,
+  "properties"
+> {
+  properties: Properties;
+}
+
+export interface RoadSegmentFeatureCollectionDTO {
+  type: "FeatureCollection";
   name: string;
   crs: { type: string; properties: { name: string } };
-  features: RoadSegmentFeature[]; // <--- ИСПРАВЛЕНО ЗДЕСЬ
+  features: RoadSegmentFeatureDTO[];
+}
+
+export interface RoadSegmentFeatureCollection extends Omit<
+  RoadSegmentFeatureCollectionDTO,
+  "features"
+> {
+  features: RoadSegmentFeature[];
 }
