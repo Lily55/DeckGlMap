@@ -1,5 +1,7 @@
 import { Map } from "./widgets/map/Map";
 import { MantineProvider } from "@mantine/core";
+// @ts-ignore
+import "@mantine/core/styles.css";
 
 export default function App() {
   return (

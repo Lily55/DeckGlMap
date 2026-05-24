@@ -6,6 +6,7 @@ export interface Properties {
   y?: number;
 }
 
+// Автобусные/трамвайные остановки
 export interface TramStopPropertiesDTO {
   name_mpv: string;
   rayon: string;
@@ -52,7 +53,7 @@ export interface TramStopFeatureDTO {
   properties: TramStopPropertiesDTO;
   geometry: {
     type: "Point";
-    coordinates: [number, number]; // [Долгота, Широта] в метрах/градусах
+    coordinates: [number, number];
   };
 }
 
@@ -63,7 +64,6 @@ export interface TramStopFeature extends Omit<
   properties: Properties;
 }
 
-// Пример типизации коллекции (FeatureCollection)
 export interface TramStopFeatureCollectionDTO {
   type: "FeatureCollection";
   features: TramStopFeatureDTO[];
@@ -76,6 +76,7 @@ export interface TramStopFeatureCollection extends Omit<
   features: TramStopFeature[];
 }
 
+// МЦД
 export interface McdStationProperties {
   id_uarms: number;
   name_station: string;
@@ -155,6 +156,7 @@ export interface McdStationFeatureCollection extends Omit<
   features: McdStationFeature[];
 }
 
+// МЦК
 export interface MckStationProperties {
   id_uarms: number;
   name_station: string;

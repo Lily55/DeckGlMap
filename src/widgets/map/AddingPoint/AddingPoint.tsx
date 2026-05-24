@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { McdMckMetroInput } from "./McdMckMetroInput";
+import { McdMckMetroInput } from "./McdMckMetroInput/McdMckMetroInput";
 import { BusTramInput } from "./BusTramInput";
 import { Select } from "@mantine/core";
+import { StreetInput } from "./StreetInput";
 
 const FormComponent = ({
   type,
@@ -17,6 +18,8 @@ const FormComponent = ({
       return <McdMckMetroInput type={type} />;
     case "busTramStop":
       return <BusTramInput />;
+    case "street":
+      return <StreetInput />;
     default:
       return null;
   }
@@ -29,7 +32,19 @@ export const AddingPoint = () => {
   >(null);
 
   return (
-    <div style={{ position: "fixed" }}>
+    <div
+      style={{
+        position: "fixed",
+        top: "31px",
+        backgroundColor: "white",
+        color: "black",
+        padding: "12px",
+        borderRadius: "8px",
+        boxShadow: "0 4px 15px rgba(0,0,0,0.3)",
+        fontFamily: "sans-serif",
+        fontSize: "14px",
+      }}
+    >
       <p>Выберите тип формы:</p>
       <Select
         data={["mcd", "mck", "metro", "street", "busTramStop"]}
