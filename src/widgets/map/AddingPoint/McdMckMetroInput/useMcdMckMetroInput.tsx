@@ -38,7 +38,7 @@ export const useMcdMckMetroInput = (type: "mcd" | "mck" | "metro") => {
   const metroMutation = useMutation({
     mutationFn: createMetroPoint,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["metroStations"] });
+      queryClient.invalidateQueries({ queryKey: ["metro"] });
     },
     onError: (error) => {
       console.log(`Ошибка: ${error.message}`);
